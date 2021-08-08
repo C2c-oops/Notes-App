@@ -1,4 +1,4 @@
-package com.c2c.firstassignmentcse227;
+package com.c2c.Notes;
 
 import android.content.Context;
 

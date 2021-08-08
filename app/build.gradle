@@ -31,7 +31,28 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+
+    //for ROOM (SQL) DB
+    implementation 'androidx.room:room-runtime:2.2.5'
+    annotationProcessor 'androidx.room:room-compiler:2.2.5'
+
+    //RecyclerView
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    //for Scalable size unit (different screen size support)
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.intuit.ssp:ssp-android:1.0.6'
+
+
+    //Material Design
+    implementation 'com.google.android.material:material:1.4.0'
+
+    //Rounded ImageView
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+
 }

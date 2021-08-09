@@ -60,4 +60,69 @@
 
     </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/notesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/_2sdp"
+        android:layout_marginEnd="@dimen/_2sdp"
+        android:clipToPadding="false"
+        android:paddingStart="0dp"
+        android:paddingEnd="@dimen/_12sdp"
+        android:paddingBottom="@dimen/_12sdp"
+        app:layout_constraintBottom_toTopOf="@id/layoutQuickActions"
+        app:layout_constraintTop_toBottomOf="@id/layoutSearch"/>
+
+    <LinearLayout
+        android:id="@+id/layoutQuickActions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorQuickActionsBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/_15sdp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/imgAddNote"
+            android:layout_width="@dimen/_23sdp"
+            android:layout_height="@dimen/_23sdp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_baseline_add_circle_outline_24"
+            app:tint="@color/colorIcons" />
+
+        <ImageView
+            android:id="@+id/imgAddImage"
+            android:layout_width="@dimen/_23sdp"
+            android:layout_height="@dimen/_23sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_baseline_image_24"
+            app:tint="@color/colorIcons" />
+
+        <ImageView
+            android:id="@+id/imgAddUrl"
+            android:layout_width="@dimen/_23sdp"
+            android:layout_height="@dimen/_23sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_baseline_url_link_24"
+            app:tint="@color/colorIcons" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgAddNoteMain"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginEnd="@dimen/_30sdp"
+        android:background="@drawable/background_add_button"
+        android:contentDescription="@string/app_name"
+        android:padding="@dimen/_5sdp"
+        android:src="@drawable/ic_baseline_add_24"
+        app:layout_constraintBottom_toTopOf="@id/layoutQuickActions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/layoutQuickActions"
+        app:tint="@color/colorPrimary" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

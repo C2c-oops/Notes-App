@@ -1,5 +1,6 @@
 package com.c2c.Notes.adapters;
 
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.c2c.Notes.R;
 import com.c2c.Notes.entities.Note;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.List;
 
@@ -59,6 +61,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
 
         LinearLayout layoutNote;
 
+        RoundedImageView imgNote;
+
         NoteViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -66,10 +70,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
             txtSubtitle = itemView.findViewById(R.id.txtSubtitle);
             txtDateTime = itemView.findViewById(R.id.txtDateTime);
             layoutNote = itemView.findViewById(R.id.layoutNote);
+            imgNote = itemView.findViewById(R.id.imgNote);
         }
 
         void setNote(Note note) {
-
             txtTitle.setText(note.getTitle());
             if (note.getSubTitle().trim().isEmpty()) {
                 txtSubtitle.setVisibility(View.GONE);
@@ -83,6 +87,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
                 gradientDrawable.setColor(Color.parseColor(note.getColor()));
             } else {
                 gradientDrawable.setColor(Color.parseColor("#333333"));
+            }
+
+            if (note.getImagePath() != null) {
+                imgNote.setImageBitmap(BitmapFactory.decodeFile(note.getImagePath()));
+                imgNote.setVisibility(View.VISIBLE);
+            } else {
+                imgNote.setVisibility(View.GONE);
             }
         }
     }

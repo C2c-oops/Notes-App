@@ -65,6 +65,8 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     private AlertDialog dialogAddURL;
 
+    private Note existingNote;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,8 +99,31 @@ public class CreateNoteActivity extends AppCompatActivity {
         selectedNoteColor = "#333333";
         selectedImagePath = "";
 
+        if (getIntent().getBooleanExtra("isViewOrUpdate", false)) {
+            existingNote = (Note) getIntent().getSerializableExtra("note");
+            setViewOrUpdateNote();
+        }
+
         initMiscellaneous();
         setSubtitleIndicatorColor();
+    }
+
+    private void setViewOrUpdateNote() {
+        inputNoteTitle.setText(existingNote.getTitle());
+        inputNoteSubtitle.setText(existingNote.getSubTitle());
+        inputNote.setText(existingNote.getNoteText());
+        txtDateTime.setText(existingNote.getDateTime());
+
+        if (existingNote.getImagePath() != null && !existingNote.getImagePath().isEmpty()) {
+            imgNote.setImageBitmap(BitmapFactory.decodeFile(existingNote.getImagePath()));
+            imgNote.setVisibility(View.VISIBLE);
+            selectedImagePath = existingNote.getImagePath();
+        }
+
+        if (existingNote.getWebLink() != null && !existingNote.getWebLink().trim().isEmpty()) {
+            txtWebURL.setText(existingNote.getWebLink());
+            layoutWebURL.setVisibility(View.VISIBLE);
+        }
     }
 
     private void saveNote() {
@@ -124,6 +149,15 @@ public class CreateNoteActivity extends AppCompatActivity {
         //if visible --> Web URL is added
         if (layoutWebURL.getVisibility() == View.VISIBLE) {
             note.setWebLink(txtWebURL.getText().toString());
+        }
+
+        /**
+         * setting id for new note,
+         * As, we have set onConflictStrategy to "REPLACE" in NoteDAO
+         * Means if id already present in DB it will be replaced with new id
+         **/
+        if(existingNote != null) {
+            note.setId(existingNote.getId());
         }
 
         //Async task to save note (Room doesn't allow DB operation on Main Thread)
@@ -215,6 +249,25 @@ public class CreateNoteActivity extends AppCompatActivity {
             imgColor5.setImageResource(R.drawable.ic_baseline_done_24);
             setSubtitleIndicatorColor();
         });
+
+        if (existingNote != null && existingNote.getColor() != null && !existingNote.getColor().trim().isEmpty()) {
+            switch (existingNote.getColor()) {
+                case "#FDBE3B":
+                    layoutMisc.findViewById(R.id.viewColor2).performClick();
+                    break;
+                case "#FF4842":
+                    layoutMisc.findViewById(R.id.viewColor3).performClick();
+                    break;
+                case "#3A52Fc":
+                    layoutMisc.findViewById(R.id.viewColor4).performClick();
+                    break;
+                case "#000000":
+                    layoutMisc.findViewById(R.id.viewColor5).performClick();
+                    break;
+
+            }
+
+        }
 
         layoutMisc.findViewById(R.id.layoutAddImage).setOnClickListener(new View.OnClickListener() {
             @Override

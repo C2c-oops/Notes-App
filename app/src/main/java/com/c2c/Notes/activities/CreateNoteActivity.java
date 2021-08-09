@@ -2,6 +2,7 @@ package com.c2c.Notes.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.AsyncQueryHandler;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -64,6 +65,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_SELECT_IMAGE = 2;
 
     private AlertDialog dialogAddURL;
+    private AlertDialog dialogDeleteNote;
 
     private Note existingNote;
 
@@ -305,7 +307,60 @@ public class CreateNoteActivity extends AppCompatActivity {
             showAddURLDialog();
         });
 
+        if (existingNote != null) {
+            //user is viewing or updating existing note from DB
+            //so delete button will be visible
+            layoutMisc.findViewById(R.id.layoutDeleteNote).setVisibility(View.VISIBLE);
+            layoutMisc.findViewById(R.id.layoutDeleteNote).setOnClickListener(view -> {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                showDeleteNoteDialog();
+            });
+        }
 
+    }
+
+    private void showDeleteNoteDialog() {
+        if (dialogDeleteNote == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(CreateNoteActivity.this);
+            View view = LayoutInflater.from(this).inflate(
+                    R.layout.layout_delete_note,
+                    (ViewGroup) findViewById(R.id.layoutDeleteNoteContainer)
+            );
+            builder.setView(view);
+            dialogDeleteNote = builder.create();
+            if (dialogDeleteNote.getWindow() != null) {
+                dialogDeleteNote.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+            }
+            view.findViewById(R.id.txtDeleteNote).setOnClickListener(view1 -> {
+
+                @SuppressLint("StaticFieldLeak")
+                class DeleteNoteTask extends AsyncTask<Void, Void, Void> {
+
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+                        NotesDatabase.getNotesDatabase(getApplicationContext())
+                                .noteDao()
+                                .deleteNote(existingNote);
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                        Intent intent = new Intent();
+                        intent.putExtra("isNoteDeleted", true);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                }
+
+                new DeleteNoteTask().execute();
+            });
+
+            view.findViewById(R.id.txtCancel).setOnClickListener(view1 -> dialogDeleteNote.dismiss());
+        }
+
+        dialogDeleteNote.show();
     }
 
     private void selectImage() {

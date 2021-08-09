@@ -53,10 +53,11 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         notesRecyclerView.setAdapter(notesAdapter);
 
         // when the activity is launched all notes will be displayed from DB
-        getNotes(REQUEST_CODE_SHOW_NOTE);
+        // therefore isNoteDeleted param is set as false
+        getNotes(REQUEST_CODE_SHOW_NOTE, false);
     }
 
-    private void getNotes(final int requestCode) {
+    private void getNotes(final int requestCode, final boolean isNoteDeleted) {
 
         class GetNotesTask extends AsyncTask<Void, Void, List<Note>> {
 
@@ -94,11 +95,18 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
                     notesAdapter.notifyItemInserted(0);
                     notesRecyclerView.smoothScrollToPosition(0);
                 } else if (requestCode == REQUEST_CODE_UPDATE_NOTE) {
-                    //removing note from clicked position and adding the latest updated note
-                    //from same position at DB and notifying adapter for change at same positon
+                    //removing note from clicked position
                     noteList.remove(noteClickedPosition);
-                    noteList.add(noteClickedPosition, notes.get(noteClickedPosition));
-                    notesAdapter.notifyItemChanged(noteClickedPosition);
+
+                    if (isNoteDeleted) {
+                        //then notifying adapter for note removed
+                        notesAdapter.notifyItemRemoved(noteClickedPosition);
+                    } else {
+                        //then adding the latest updated note from same position at DB
+                        // and notifying adapter for change at same position
+                        noteList.add(noteClickedPosition, notes.get(noteClickedPosition));
+                        notesAdapter.notifyItemChanged(noteClickedPosition);
+                    }
                 }
 
 
@@ -114,11 +122,13 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
 
         if (requestCode == REQUEST_CODE_ADD_NOTE && resultCode == RESULT_OK) {
             //new note will added and result is sent back to activity
-            getNotes(REQUEST_CODE_ADD_NOTE);
+            //therefore isNoteDeleted param is set as false
+            getNotes(REQUEST_CODE_ADD_NOTE, false);
         } else if(requestCode == REQUEST_CODE_UPDATE_NOTE && resultCode == RESULT_OK) {
             if(data != null) {
                 //already available note will update and sent back to activity
-                getNotes(REQUEST_CODE_UPDATE_NOTE);
+                //therefore isNoteDeleted param is set as value passed from CreateNoteActivity
+                getNotes(REQUEST_CODE_UPDATE_NOTE, data.getBooleanExtra("isNoteDeleted", false));
             }
         }
 

@@ -1,11 +1,12 @@
-package com.c2c.Notes;
+package com.c2c.Notes.activities;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.media.Image;
-import android.os.Bundle;
-import android.widget.ImageView;
+import com.c2c.Notes.R;
 
 public class MainActivity extends AppCompatActivity {
 

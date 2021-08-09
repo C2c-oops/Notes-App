@@ -1,0 +1,16 @@
+
+Y
+java:S1874%">Remove this use of "startActivityForResult"; it is deprecated.(ï§õúÿÿÿÿ
+G
+java:S18748"1Remove this use of "AsyncTask"; it is deprecated.(‰™¼î
+`
+java:S1874B"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(±Áå­
+K
+java:S1874C"5Remove this use of "onPostExecute"; it is deprecated.(ÞìÚç
+E
+java:S1874T"/Remove this use of "execute"; it is deprecated.(–”òõ
+_
+java:S1874X"JDon't override a deprecated method or explicitly mark it as "@Deprecated".(¹Î¾
+T
+java:S1155H">Use isEmpty() to check whether the collection is empty or not.(ÕæÎ®
+n	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÔÞÒ_
